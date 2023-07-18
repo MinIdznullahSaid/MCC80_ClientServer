@@ -1,12 +1,19 @@
-﻿namespace API.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-public class Room
+namespace API.Models;
+
+[Table("tb_m_rooms")]
+public class Room : BaseEntity
 {
-    public Guid Guid { get; set; }
-    public int floor { get; set; }
-    public int capacity { get; set; }
-    public DateTime CreatedDate { get; set; }
-    public DateTime ModifiedDate { get; set; }
+    [Column("name", TypeName = "nvarchar(100)")]
+    public string Name { get; set; }
+    [Column("floor")]
+    public int Floor { get; set; }
+    [Column("capacity")]
+    public int Capacity { get; set; }
+
+    //Cardinality
+    public ICollection<Booking>? Bookings { get; set; }
 
 }
 

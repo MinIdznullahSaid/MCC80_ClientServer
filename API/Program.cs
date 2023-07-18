@@ -1,6 +1,11 @@
+using API.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+var connection = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<BookingDbContext>(options => options.UseSqlServer(connection));//menyesuaikan dengan database yang digunakan.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -23,3 +28,18 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+//file json yang berisi connection string tidak boleh dipush ke github
+//Untuk migrasi gunakan perintah "Add-Migration [NamaMigration]"
+
+/*
+Command line NPM (Nuget Package Manager) Console
+
+Add-Migration = Menambahkan Migrasi
+Update-Database = Menulis ke Database
+Get-Migration = Retrieve all Migrations
+Remove-Migration = Menghapus file migrasi terakhir
+
+Melakukan Rollback Migration
+Update-Database -Migration IdFIleMigrasi
+*/

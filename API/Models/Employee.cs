@@ -1,17 +1,31 @@
-﻿namespace API.Models;
+﻿using API.Utilities.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
-public class Employee
+namespace API.Models;
+
+[Table("tb_m_employees")]
+public class Employee : BaseEntity
 {
-    public Guid Guid { get; set; }
-    public string Nik { get; set; }
+    [Column("nik", TypeName = "nchar(6)")]
+    public string NIK { get; set; }
+    [Column("first_name", TypeName = "nvarchar(100)")]
     public string FirstName { get; set; }
-    public string LastName { get; set; }
+    [Column("last_name", TypeName = "nvarchar(100)")]
+    public string? LastName { get; set; }
+    [Column("birth_date")]
     public DateTime BirthDate { get; set; }
-    public int Gender { get; set; }
+    [Column("gender")]
+    public GenderLevel Gender { get; set; }
+    [Column("hiring_date")]
     public DateTime HiringDate { get; set; }
+    [Column("email", TypeName = "nvarchar(100)")]
     public string Email { get; set; }
+    [Column("phone_number", TypeName = "nvarchar(20)")]
     public string PhoneNumber { get; set; }
-    public DateTime CreatedDate { get; set; }
-    public DateTime ModifiedDate { get; set; }
+
+    //Cardinality
+    public ICollection<Booking>? Bookings { get; set; }
+    public Education? Education { get; set; }
+    public Account? Account { get; set; }
 }
 
