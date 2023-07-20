@@ -5,37 +5,37 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories;
 
-public class UniversityRepository : IUniversityRepository
+public class EducationRepository : IEducationRepository
 {
     private readonly BookingDbContext _context;
 
-    public UniversityRepository(BookingDbContext context)
+    public EducationRepository(BookingDbContext context)
     {
         _context = context;
     }
 
-    public IEnumerable<University> GetAll()
+    public IEnumerable<Education> GetAll()
     {
-        return _context.Set<University>()
+        return _context.Set<Education>()
                        .ToList();
     }
 
-    public University? GetByGuid(Guid guid)
+    public Education? GetByGuid(Guid guid)
     {
-        var data = _context.Set<University>()
+        var data = _context.Set<Education>()
                            .Find(guid);
         _context.ChangeTracker.Clear();
         return data;
     }
 
-    public University? Create(University university)
+    public Education? Create(Education education)
     {
         try
         {
-            _context.Set<University>()
-                    .Add(university);
+            _context.Set<Education>()
+                    .Add(education);
             _context.SaveChanges();
-            return university;
+            return education;
         }
         catch
         {
@@ -43,11 +43,11 @@ public class UniversityRepository : IUniversityRepository
         }
     }
 
-    public bool Update(University university)
+    public bool Update(Education education)
     {
         try
         {
-            _context.Entry(university)
+            _context.Entry(education)
                     .State = EntityState.Modified;
             _context.SaveChanges();
             return true;
@@ -58,12 +58,12 @@ public class UniversityRepository : IUniversityRepository
         }
     }
 
-    public bool Delete(University university)
+    public bool Delete(Education education)
     {
         try
         {
-            _context.Set<University>()
-                    .Remove(university);
+            _context.Set<Education>()
+                    .Remove(education);
             _context.SaveChanges();
             return true;
         }
