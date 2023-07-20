@@ -13,6 +13,7 @@ builder.Services.AddDbContext<BookingDbContext>(options => options.UseSqlServer(
 // Add repositories to the container.
 builder.Services.AddScoped<IUniversityRepository, UniversityRepository>();
 builder.Services.AddScoped<IEducationRepository, EducationRepository>();
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
 // Add services to the container.
 builder.Services.AddControllers();
