@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(BookingDbContext))]
-    [Migration("20230720021835_KeyConfiguration")]
+    [Migration("20230720090721_KeyConfiguration")]
     partial class KeyConfiguration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,7 +27,6 @@ namespace API.Migrations
             modelBuilder.Entity("API.Models.Account", b =>
                 {
                     b.Property<Guid>("Guid")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("guid");
 
@@ -188,6 +187,7 @@ namespace API.Migrations
             modelBuilder.Entity("API.Models.Employee", b =>
                 {
                     b.Property<Guid>("Guid")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("guid");
 
@@ -331,6 +331,17 @@ namespace API.Migrations
                     b.ToTable("tb_m_universities");
                 });
 
+            modelBuilder.Entity("API.Models.Account", b =>
+                {
+                    b.HasOne("API.Models.Employee", "Employee")
+                        .WithOne("Account")
+                        .HasForeignKey("API.Models.Account", "Guid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
             modelBuilder.Entity("API.Models.AccountRole", b =>
                 {
                     b.HasOne("API.Models.Account", "Account")
@@ -388,26 +399,15 @@ namespace API.Migrations
                     b.Navigation("University");
                 });
 
-            modelBuilder.Entity("API.Models.Employee", b =>
-                {
-                    b.HasOne("API.Models.Account", "Account")
-                        .WithOne("Employee")
-                        .HasForeignKey("API.Models.Employee", "Guid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Account");
-                });
-
             modelBuilder.Entity("API.Models.Account", b =>
                 {
                     b.Navigation("AccountRoles");
-
-                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("API.Models.Employee", b =>
                 {
+                    b.Navigation("Account");
+
                     b.Navigation("Bookings");
 
                     b.Navigation("Education");

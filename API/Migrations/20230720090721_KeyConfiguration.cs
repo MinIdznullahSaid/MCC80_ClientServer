@@ -34,6 +34,14 @@ namespace API.Migrations
                 column: "university_guid");
 
             migrationBuilder.AddForeignKey(
+                name: "FK_tb_m_account_roles_tb_m_employees_guid",
+                table: "tb_m_account_roles",
+                column: "guid",
+                principalTable: "tb_m_employees",
+                principalColumn: "guid",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_tb_m_educations_tb_m_employees_guid",
                 table: "tb_m_educations",
                 column: "guid",
@@ -46,14 +54,6 @@ namespace API.Migrations
                 table: "tb_m_educations",
                 column: "university_guid",
                 principalTable: "tb_m_universities",
-                principalColumn: "guid",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_tb_m_employees_tb_m_account_roles_guid",
-                table: "tb_m_employees",
-                column: "guid",
-                principalTable: "tb_m_account_roles",
                 principalColumn: "guid",
                 onDelete: ReferentialAction.Cascade);
 
@@ -93,16 +93,16 @@ namespace API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
+                name: "FK_tb_m_account_roles_tb_m_employees_guid",
+                table: "tb_m_account_roles");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_tb_m_educations_tb_m_employees_guid",
                 table: "tb_m_educations");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_tb_m_educations_tb_m_universities_university_guid",
                 table: "tb_m_educations");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_tb_m_employees_tb_m_account_roles_guid",
-                table: "tb_m_employees");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_tb_tr_account_roles_tb_m_account_roles_account_guid",
