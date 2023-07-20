@@ -284,42 +284,42 @@ namespace API.Migrations
 
             migrationBuilder.RenameColumn(
                 name: "Password",
-                table: "tb_m_account_roles",
+                table: "tb_m_accounts",
                 newName: "password");
 
             migrationBuilder.RenameColumn(
                 name: "OTP",
-                table: "tb_m_account_roles",
+                table: "tb_m_accounts",
                 newName: "otp");
 
             migrationBuilder.RenameColumn(
                 name: "Guid",
-                table: "tb_m_account_roles",
+                table: "tb_m_accounts",
                 newName: "guid");
 
             migrationBuilder.RenameColumn(
                 name: "ModifiedDate",
-                table: "tb_m_account_roles",
+                table: "tb_m_accounts",
                 newName: "modified_date");
 
             migrationBuilder.RenameColumn(
                 name: "IsUsed",
-                table: "tb_m_account_roles",
+                table: "tb_m_accounts",
                 newName: "is_used");
 
             migrationBuilder.RenameColumn(
                 name: "IsDeleted",
-                table: "tb_m_account_roles",
+                table: "tb_m_accounts",
                 newName: "is_deleted");
 
             migrationBuilder.RenameColumn(
                 name: "ExpiredTime",
-                table: "tb_m_account_roles",
+                table: "tb_m_accounts",
                 newName: "expired_time");
 
             migrationBuilder.RenameColumn(
                 name: "CreatedDate",
-                table: "tb_m_account_roles",
+                table: "tb_m_accounts",
                 newName: "created_date");
 
             migrationBuilder.RenameColumn(
@@ -466,7 +466,7 @@ namespace API.Migrations
                 column: "guid");
 
             migrationBuilder.AddPrimaryKey(
-                name: "PK_tb_m_account_roles",
+                name: "PK_tb_m_accounts",
                 table: "tb_m_account_roles",
                 column: "guid");
 
@@ -507,8 +507,8 @@ namespace API.Migrations
                 table: "tb_m_educations");
 
             migrationBuilder.DropPrimaryKey(
-                name: "PK_tb_m_account_roles",
-                table: "tb_m_account_roles");
+                name: "PK_tb_m_accounts",
+                table: "tb_m_accounts");
 
             migrationBuilder.DropColumn(
                 name: "name",
@@ -543,7 +543,7 @@ namespace API.Migrations
                 newName: "Educations");
 
             migrationBuilder.RenameTable(
-                name: "tb_m_account_roles",
+                name: "tb_m_accounts",
                 newName: "Accounts");
 
             migrationBuilder.RenameColumn(
