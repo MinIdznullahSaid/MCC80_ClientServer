@@ -61,7 +61,7 @@ public class BookingDbContext : DbContext
         modelBuilder.Entity<Employee>()
                     .HasOne(ed => ed.Education)
                     .WithOne(e => e.Employee)
-                    .HasForeignKey<Education>(ed => ed.Guid);
+                    .HasForeignKey<Education>(e => e.Guid);
 
         // Many Bookings with One Employee (1:N)
         modelBuilder.Entity<Employee>()

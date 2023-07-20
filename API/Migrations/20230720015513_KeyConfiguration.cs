@@ -4,7 +4,7 @@
 
 namespace API.Migrations
 {
-    public partial class ForeignKeyConfiguration : Migration
+    public partial class KeyConfiguration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
