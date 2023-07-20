@@ -35,9 +35,9 @@ public class BookingDbContext : DbContext
 
         // Many Bookings with One Room (N:1)
         modelBuilder.Entity<Booking>()
-                    .HasOne(r => r.Room)
-                    .WithMany(b => b.Bookings)
-                    .HasForeignKey(r => r.RoomGuid);
+                    .HasOne(b => b.Room)
+                    .WithMany(r => r.Bookings)
+                    .HasForeignKey(b => b.RoomGuid);
 
         // Many Account Roles with One Role (N:1)
         modelBuilder.Entity<AccountRole>()

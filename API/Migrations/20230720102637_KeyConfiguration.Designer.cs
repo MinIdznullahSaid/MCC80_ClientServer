@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(BookingDbContext))]
-    [Migration("20230720090721_KeyConfiguration")]
+    [Migration("20230720102637_KeyConfiguration")]
     partial class KeyConfiguration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
