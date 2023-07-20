@@ -66,7 +66,7 @@ namespace API.Migrations
 
             migrationBuilder.RenameTable(
                 name: "Accounts",
-                newName: "tb_m_account_roles");
+                newName: "tb_m_accounts");
 
             migrationBuilder.RenameTable(
                 name: "AccountRoles",

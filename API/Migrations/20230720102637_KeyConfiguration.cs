@@ -34,8 +34,8 @@ namespace API.Migrations
                 column: "university_guid");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_tb_m_account_roles_tb_m_employees_guid",
-                table: "tb_m_account_roles",
+                name: "FK_tb_m_accounts_tb_m_employees_guid",
+                table: "tb_m_accounts",
                 column: "guid",
                 principalTable: "tb_m_employees",
                 principalColumn: "guid",
@@ -58,10 +58,10 @@ namespace API.Migrations
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_tb_tr_account_roles_tb_m_account_roles_account_guid",
+                name: "FK_tb_tr_account_roles_tb_m_accounts_account_guid",
                 table: "tb_tr_account_roles",
                 column: "account_guid",
-                principalTable: "tb_m_account_roles",
+                principalTable: "tb_m_accounts",
                 principalColumn: "guid",
                 onDelete: ReferentialAction.Cascade);
 
@@ -93,7 +93,7 @@ namespace API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_tb_m_account_roles_tb_m_employees_guid",
+                name: "FK_tb_m_accounts_tb_m_employees_guid",
                 table: "tb_m_account_roles");
 
             migrationBuilder.DropForeignKey(
@@ -105,7 +105,7 @@ namespace API.Migrations
                 table: "tb_m_educations");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_tb_tr_account_roles_tb_m_account_roles_account_guid",
+                name: "FK_tb_tr_account_roles_tb_m_accounts_account_guid",
                 table: "tb_tr_account_roles");
 
             migrationBuilder.DropForeignKey(

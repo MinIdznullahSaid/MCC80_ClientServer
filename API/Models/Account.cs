@@ -2,7 +2,7 @@
 
 namespace API.Models;
 
-[Table("tb_m_account_roles")]
+[Table("tb_m_account")]
 public class Account : BaseEntity
 {
     [Column("password")]
