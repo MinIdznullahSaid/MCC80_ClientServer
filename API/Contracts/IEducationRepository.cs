@@ -2,12 +2,8 @@
 
 namespace API.Contracts;
 
-public interface IEducationRepository
+public interface IEducationRepository : IGeneralRepository<Education>
 {
-    IEnumerable<Education> GetAll();
-    Education? GetByGuid(Guid id);
-    Education? Create(Education education);
-    bool Update(Education education);
-    bool Delete(Education education);
+
 }
 
