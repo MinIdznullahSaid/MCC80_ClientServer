@@ -239,7 +239,7 @@ namespace API.Migrations
                     b.ToTable("Rooms");
                 });
 
-            modelBuilder.Entity("API.Models.University", b =>
+            modelBuilder.Entity("API.Models.Education", b =>
                 {
                     b.Property<Guid>("Guid")
                         .ValueGeneratedOnAdd()

@@ -21,11 +21,11 @@ public class BookingDbContext : DbContext
 
         modelBuilder.Entity<Employee>()
                     .HasIndex(e => new
-        {
-            e.NIK,
-            e.Email,
-            e.PhoneNumber
-        }).IsUnique();
+                    {
+                        e.NIK,
+                        e.Email,
+                        e.PhoneNumber
+                    }).IsUnique();
 
         // Many Educations with One University (N:1)
         modelBuilder.Entity<Education>()
@@ -70,6 +70,5 @@ public class BookingDbContext : DbContext
                     .HasForeignKey(b => b.EmployeeGuid);
     }
 }
-
 
 

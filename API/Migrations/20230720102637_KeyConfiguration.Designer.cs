@@ -301,7 +301,7 @@ namespace API.Migrations
                     b.ToTable("tb_m_rooms");
                 });
 
-            modelBuilder.Entity("API.Models.University", b =>
+            modelBuilder.Entity("API.Models.Education", b =>
                 {
                     b.Property<Guid>("Guid")
                         .ValueGeneratedOnAdd()
@@ -388,7 +388,7 @@ namespace API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Models.University", "University")
+                    b.HasOne("API.Models.Education", "Education")
                         .WithMany("Educations")
                         .HasForeignKey("UniversityGuid")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -396,7 +396,7 @@ namespace API.Migrations
 
                     b.Navigation("Employee");
 
-                    b.Navigation("University");
+                    b.Navigation("Education");
                 });
 
             modelBuilder.Entity("API.Models.Account", b =>
@@ -423,7 +423,7 @@ namespace API.Migrations
                     b.Navigation("Bookings");
                 });
 
-            modelBuilder.Entity("API.Models.University", b =>
+            modelBuilder.Entity("API.Models.Education", b =>
                 {
                     b.Navigation("Educations");
                 });
