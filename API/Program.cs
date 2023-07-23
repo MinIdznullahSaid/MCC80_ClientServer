@@ -26,6 +26,10 @@ builder.Services.AddScoped<UniversityService>();
 builder.Services.AddScoped<EducationService>();
 builder.Services.AddScoped<RoomService>();
 builder.Services.AddScoped<BookingService>();
+builder.Services.AddScoped<RoleService>();
+builder.Services.AddScoped<AccountRoleService>();
+builder.Services.AddScoped<AccountService>();
+builder.Services.AddScoped<EmployeeService>();
 
 // Add services to the container.
 builder.Services.AddControllers();

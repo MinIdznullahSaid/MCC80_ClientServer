@@ -31,7 +31,7 @@ public class NewEducationDto
             Major = education.Major,
             Degree = education.Degree,
             GPA = education.GPA,
-            UniversityGuid = education.UniversityGuid,
+            UniversityGuid = education.UniversityGuid
         };
     }
 }

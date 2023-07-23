@@ -1,5 +1,7 @@
 ﻿using API.Contracts;
+using API.DTOs;
 using API.Models;
+using API.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -8,20 +10,20 @@ namespace API.Controllers;
 [Route("api/roles")]
 public class RoleController : ControllerBase
 {
-    private readonly IRoleRepository _roleRepository;
+    private readonly RoleService _roleService;
 
-    public RoleController(IRoleRepository roleRepository)
+    public RoleController(RoleService roleService)
     {
-        _roleRepository = roleRepository;
+        _roleService = roleService;
     }
 
     [HttpGet]
     public IActionResult GetAll()
     {
-        var result = _roleRepository.GetAll();
+        var result = _roleService.GetAll();
         if (!result.Any())
         {
-            return NotFound();
+            return NotFound("No data found");
         }
 
         return Ok(result);
@@ -30,19 +32,19 @@ public class RoleController : ControllerBase
     [HttpGet("{guid}")]
     public IActionResult GetByGuid(Guid guid)
     {
-        var result = _roleRepository.GetByGuid(guid);
+        var result = _roleService.GetByGuid(guid);
         if (result is null)
         {
-            return NotFound();
+            return NotFound("Guid is not found");
         }
 
         return Ok(result);
     }
 
     [HttpPost]
-    public IActionResult Insert(Role role)
+    public IActionResult Insert(NewRoleDto newRoleDto)
     {
-        var result = _roleRepository.Create(role);
+        var result = _roleService.Create(newRoleDto);
         if (result is null)
         {
             return StatusCode(500, "Error Retrieve from database");
@@ -52,16 +54,16 @@ public class RoleController : ControllerBase
     }
 
     [HttpPut]
-    public IActionResult Update(Role role)
+    public IActionResult Update(RoleDto roleDto)
     {
-        var check = _roleRepository.GetByGuid(role.Guid);
-        if (check is null)
+        var result = _roleService.Update(roleDto);
+
+        if (result is -1)
         {
             return NotFound("Guid is not found");
         }
 
-        var result = _roleRepository.Update(role);
-        if (!result)
+        if (result is 0)
         {
             return StatusCode(500, "Error Retrieve from database");
         }
@@ -72,19 +74,18 @@ public class RoleController : ControllerBase
     [HttpDelete]
     public IActionResult Delete(Guid guid)
     {
-        var data = _roleRepository.GetByGuid(guid);
-        if (data is null)
+        var result = _roleService.Delete(guid);
+
+        if (result is -1)
         {
             return NotFound("Guid is not found");
         }
 
-        var result = _roleRepository.Delete(data);
-        if (!result)
+        if (result is 0)
         {
             return StatusCode(500, "Error Retrieve from database");
         }
 
         return Ok("Delete success");
     }
-
 }
