@@ -1,6 +1,7 @@
 ﻿using API.Contracts;
 using API.DTOs;
 using API.Models;
+using API.Utilities.Handlers;
 
 namespace API.Services;
 
@@ -43,7 +44,9 @@ public class EmployeeService
 
     public EmployeeDto? Create(NewEmployeeDto newEmployeeDto)
     {
-        var employee = _employeeRepository.Create(newEmployeeDto);
+        Employee newNIK = newEmployeeDto;
+        newNIK.NIK = GenerateHandler.GenerateNIK(_employeeRepository.GetLastNIK());
+        var employee = _employeeRepository.Create(newNIK);
         if (employee is null)
         {
             return null; // employee is null or not found;
@@ -81,4 +84,5 @@ public class EmployeeService
         return result ? 1 // employee is deleted;
             : 0; // employee failed to delete;
     }
+
 }

@@ -16,11 +16,13 @@ public class EmployeeRepository : GeneralRepository<Employee>, IEmployeeReposito
                        || e.PhoneNumber.Contains(value)) is null;
     }
 
-    public object GetLastNIK(EmployeeDto EmployeeDto)
+    public string GetLastNIK()
     {
-        return _context.Employees
+        var lastEmployee = _context.Set<Employee>()
                 .OrderByDescending(e => e.NIK)
-                .FirstOrDefault();
+                .FirstOrDefault().NIK;
+
+        return lastEmployee;
     }
 }
 

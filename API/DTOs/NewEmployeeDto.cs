@@ -5,7 +5,6 @@ namespace API.DTOs;
 
 public class NewEmployeeDto
 {
-    public string NIK { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public DateTime BirthDate { get; set; }
@@ -19,7 +18,6 @@ public class NewEmployeeDto
         return new Employee
         {
             Guid = new Guid(),
-            NIK = newEmployeeDto.NIK,
             FirstName = newEmployeeDto.FirstName,
             LastName = newEmployeeDto.LastName,
             BirthDate = newEmployeeDto.BirthDate,
@@ -36,7 +34,6 @@ public class NewEmployeeDto
     {
         return new NewEmployeeDto
         {
-            NIK = employee.NIK,
             FirstName = employee.FirstName,
             LastName = employee.LastName,
             BirthDate = employee.BirthDate,

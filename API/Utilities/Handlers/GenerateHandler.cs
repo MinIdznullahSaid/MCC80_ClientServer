@@ -1,9 +1,14 @@
-﻿/*namespace API.Utilities.Handlers;
+﻿namespace API.Utilities.Handlers;
 
 public class GenerateHandler
 {
-    public static NIK(string? nik = null)
+    public static string GenerateNIK(string nik)
     {
-        return nik;
+        if(nik is null)
+        {
+            return "111111";
+        }
+        var newNIKGenerate = Convert.ToInt32(nik) + 1;
+        return newNIKGenerate.ToString();
     }
-}*/
+}

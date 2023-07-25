@@ -1,11 +1,13 @@
 ﻿using API.DTOs;
 using API.Models;
+using API.Utilities.Handlers;
 
 namespace API.Contracts;
 
 public interface IEmployeeRepository : IGeneralRepository<Employee>
 {
-    object GetLastNIK(EmployeeDto EmployeeDto);
     bool IsNotExist(string value);
+
+    string GetLastNIK();
 }
 
