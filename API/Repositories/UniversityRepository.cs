@@ -8,5 +8,12 @@ namespace API.Repositories;
 public class UniversityRepository : GeneralRepository<University>, IUniversityRepository
 {
     public UniversityRepository(BookingDbContext context) : base(context) { }
+
+    public bool IsNotExist(string value)
+    {
+        return _context.Set<University>()
+                       .SingleOrDefault(e => e.Code.Contains(value)
+                       || e.Name.Contains(value)) is null;
+    }
 }
 

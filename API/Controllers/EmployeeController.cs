@@ -60,7 +60,7 @@ public class EmployeeController : ControllerBase
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Insert Success",
+            Message = "Data is found",
             Data = result
         });
     }
