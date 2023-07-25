@@ -2,7 +2,9 @@
 using API.DTOs;
 using API.Models;
 using API.Services;
+using API.Utilities.Handlers;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace API.Controllers;
 
@@ -23,10 +25,21 @@ public class UniversityController : ControllerBase
         var result = _universityService.GetAll();
         if (!result.Any())
         {
-            return NotFound("No data found");
+            return NotFound(new ResponseHandler<UniversityDto>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Data is not found"
+            });
         }
 
-        return Ok(result);
+        return Ok(new ResponseHandler<IEnumerable<UniversityDto>>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Success retrieve data",
+            Data = result
+        });
     }
 
     [HttpGet("{guid}")]
@@ -35,10 +48,21 @@ public class UniversityController : ControllerBase
         var result = _universityService.GetByGuid(guid);
         if (result is null)
         {
-            return NotFound("Guid is not found");
+            return NotFound(new ResponseHandler<UniversityDto>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Data is not found"
+            });
         }
 
-        return Ok(result);
+        return Ok(new ResponseHandler<UniversityDto>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Insert Success",
+            Data = result
+        });
     }
 
     [HttpPost]
@@ -47,10 +71,21 @@ public class UniversityController : ControllerBase
         var result = _universityService.Create(newUniversityDto);
         if (result is null)
         {
-            return StatusCode(500, "Error Retrieve from database");
+            return StatusCode(500,new ResponseHandler<UniversityDto>
+            {
+                Code = StatusCodes.Status500InternalServerError,
+                Status = HttpStatusCode.InternalServerError.ToString(),
+                Message = "Insert Failed"
+            });
         }
 
-        return Ok(result);
+        return Ok(new ResponseHandler<UniversityDto>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Insert Success",
+            Data = result
+        });
     }
 
     [HttpPut]
@@ -60,15 +95,31 @@ public class UniversityController : ControllerBase
 
         if (result is -1)
         {
-            return NotFound("Guid is not found");
+            return NotFound(new ResponseHandler<UniversityDto>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Guid is not found"
+            });
         }
 
         if (result is 0)
         {
-            return StatusCode(500, "Error Retrieve from database");
+            return StatusCode(500, new ResponseHandler<UniversityDto>
+            {
+                Code = StatusCodes.Status500InternalServerError,
+                Status = HttpStatusCode.InternalServerError.ToString(),
+                Message = "Update Failed"
+            });
         }
 
-        return Ok("Update success");
+        return Ok(new ResponseHandler<UniversityDto>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Update Success",
+            Data = universityDto
+        });
     }
 
     [HttpDelete]
@@ -78,14 +129,29 @@ public class UniversityController : ControllerBase
 
         if (result is -1)
         {
-            return NotFound("Guid is not found");
+            return NotFound(new ResponseHandler<UniversityDto>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Guid is not found"
+            });
         }
 
         if (result is 0)
         {
-            return StatusCode(500, "Error Retrieve from database");
+            return StatusCode(500, new ResponseHandler<UniversityDto>
+            {
+                Code = StatusCodes.Status500InternalServerError,
+                Status = HttpStatusCode.InternalServerError.ToString(),
+                Message = "Delete Failed"
+            });
         }
 
-        return Ok("Delete success");
+        return Ok(new ResponseHandler<UniversityDto>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Delete Success",
+        });
     }
 }
