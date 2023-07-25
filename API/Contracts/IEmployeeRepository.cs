@@ -8,5 +8,6 @@ public interface IEmployeeRepository : IGeneralRepository<Employee>
 {
     bool IsNotExist(string value);
     string GetLastNIK();
+    Employee? GetByEmail(string email);
 }
 

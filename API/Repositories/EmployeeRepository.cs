@@ -24,5 +24,10 @@ public class EmployeeRepository : GeneralRepository<Employee>, IEmployeeReposito
 
         return lastEmployee;
     }
+
+    public Employee? GetByEmail(string email)
+    {
+        return _context.Set<Employee>().SingleOrDefault(e => e.Email.Contains(email));
+    }
 }
 
