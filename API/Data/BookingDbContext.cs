@@ -31,43 +31,50 @@ public class BookingDbContext : DbContext
         modelBuilder.Entity<Education>()
                     .HasOne(e => e.University)
                     .WithMany(u => u.Educations)
-                    .HasForeignKey(u => u.UniversityGuid);
+                    .HasForeignKey(u => u.UniversityGuid)
+                    .OnDelete(DeleteBehavior.Restrict);
 
         // Many Bookings with One Room (N:1)
         modelBuilder.Entity<Booking>()
                     .HasOne(b => b.Room)
                     .WithMany(r => r.Bookings)
-                    .HasForeignKey(b => b.RoomGuid);
+                    .HasForeignKey(b => b.RoomGuid)
+                    .OnDelete(DeleteBehavior.Restrict);
 
         // Many Account Roles with One Role (N:1)
         modelBuilder.Entity<AccountRole>()
                     .HasOne(ar => ar.Role)
                     .WithMany(r => r.AccountRoles)
-                    .HasForeignKey(ar => ar.RoleGuid);
+                    .HasForeignKey(ar => ar.RoleGuid)
+                    .OnDelete(DeleteBehavior.Restrict);
 
         // Many Account Roles with One Account (1:N)
         modelBuilder.Entity<Account>()
                     .HasMany(a => a.AccountRoles)
                     .WithOne(ar => ar.Account)
-                    .HasForeignKey(ar => ar.AccountGuid);
+                    .HasForeignKey(ar => ar.AccountGuid)
+                    .OnDelete(DeleteBehavior.Restrict);
 
         // One Employee with One Account (1:1)
         modelBuilder.Entity<Employee>()
                     .HasOne(e => e.Account)
                     .WithOne(a => a.Employee)
-                    .HasForeignKey<Account>(a => a.Guid);
+                    .HasForeignKey<Account>(a => a.Guid)
+                    .OnDelete(DeleteBehavior.Restrict);
 
         // One Employee with One Education (1:1)
         modelBuilder.Entity<Employee>()
                     .HasOne(e => e.Education)
                     .WithOne(ed => ed.Employee)
-                    .HasForeignKey<Education>(ed => ed.Guid);
+                    .HasForeignKey<Education>(ed => ed.Guid)
+                    .OnDelete(DeleteBehavior.Restrict);
 
         // Many Bookings with One Employee (1:N)
         modelBuilder.Entity<Employee>()
                     .HasMany(e => e.Bookings)
                     .WithOne(b => b.Employee)
-                    .HasForeignKey(b => b.EmployeeGuid);
+                    .HasForeignKey(b => b.EmployeeGuid)
+                    .OnDelete(DeleteBehavior.Restrict);
     }
 }
 

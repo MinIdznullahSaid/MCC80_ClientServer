@@ -2,7 +2,10 @@ using API.Contracts;
 using API.Data;
 using API.Repositories;
 using API.Services;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +33,10 @@ builder.Services.AddScoped<RoleService>();
 builder.Services.AddScoped<AccountRoleService>();
 builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<EmployeeService>();
+
+// Register FluentValidation
+builder.Services.AddFluentValidationAutoValidation()
+                .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
 // Add services to the container.
 builder.Services.AddControllers();

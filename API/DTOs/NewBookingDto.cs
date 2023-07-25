@@ -5,7 +5,6 @@ namespace API.DTOs;
 
 public class NewBookingDto
 {
-    public Guid Guid { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     public StatusLevel Status { get; set; }
@@ -17,7 +16,7 @@ public class NewBookingDto
     {
         return new Booking
         {
-            Guid = newBookingDto.Guid,
+            Guid = new Guid(),
             StartDate = newBookingDto.StartDate,
             EndDate = newBookingDto.EndDate,
             Status = newBookingDto.Status,
@@ -32,7 +31,6 @@ public class NewBookingDto
     {
         return new NewBookingDto
         {
-            Guid = booking.Guid,
             StartDate = booking.StartDate,
             EndDate = booking.EndDate,
             Status = booking.Status,
