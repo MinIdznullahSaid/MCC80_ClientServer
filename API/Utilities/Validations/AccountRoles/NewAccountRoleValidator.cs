@@ -1,4 +1,4 @@
-﻿using API.DTOs;
+﻿using API.DTOs.AccountRoleDtos;
 using FluentValidation;
 
 namespace API.Utilities.Validations.AccountRoles;

@@ -1,9 +1,10 @@
 ﻿using API.Models;
 using API.Utilities.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace API.DTOs;
+namespace API.DTOs.AccountDtos;
 
-public class NewAccountDto
+public class AccountDto
 {
     public Guid Guid { get; set; }
     public string Password { get; set; }
@@ -12,23 +13,23 @@ public class NewAccountDto
     public bool IsUsed { get; set; }
     public DateTime ExpiredTime { get; set; }
 
-    public static implicit operator Account(NewAccountDto newAccountDto)
+    public static implicit operator Account(AccountDto accountDto)
     {
         return new Account
         {
-            Guid = newAccountDto.Guid,
-            Password = newAccountDto.Password,
-            IsDeleted = newAccountDto.IsDeleted,
-            OTP = newAccountDto.OTP,
-            IsUsed = newAccountDto.IsUsed,
-            ExpiredTime = newAccountDto.ExpiredTime,
+            Guid = accountDto.Guid,
+            Password = accountDto.Password,
+            IsDeleted = accountDto.IsDeleted,
+            OTP = accountDto.OTP,
+            IsUsed = accountDto.IsUsed,
+            ExpiredTime = accountDto.ExpiredTime,
             ModifiedDate = DateTime.Now
         };
     }
 
-    public static explicit operator NewAccountDto(Account account)
+    public static explicit operator AccountDto(Account account)
     {
-        return new NewAccountDto
+        return new AccountDto
         {
             Guid = account.Guid,
             Password = account.Password,

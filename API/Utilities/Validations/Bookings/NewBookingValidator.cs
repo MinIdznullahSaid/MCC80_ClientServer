@@ -1,4 +1,4 @@
-﻿using API.DTOs;
+﻿using API.DTOs.BookingDtos;
 using FluentValidation;
 
 namespace API.Utilities.Validations.Bookings;

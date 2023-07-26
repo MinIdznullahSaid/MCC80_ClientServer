@@ -1,7 +1,7 @@
 ﻿using API.Models;
 using API.Utilities.Enums;
 
-namespace API.DTOs;
+namespace API.DTOs.AccountRoleDtos;
 
 public class NewAccountRoleDto
 {
@@ -27,4 +27,4 @@ public class NewAccountRoleDto
             RoleGuid = accountRole.RoleGuid
         };
     }
-} 
+}

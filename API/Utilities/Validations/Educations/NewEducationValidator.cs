@@ -1,5 +1,5 @@
 ﻿using API.Contracts;
-using API.DTOs;
+using API.DTOs.EducationDtos;
 using API.Repositories;
 using FluentValidation;
 using Microsoft.IdentityModel.Tokens;

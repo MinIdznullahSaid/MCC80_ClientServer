@@ -2,7 +2,7 @@
 using API.Utilities.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace API.DTOs;
+namespace API.DTOs.AccountRoleDtos;
 
 public class AccountRoleDto
 {
@@ -25,7 +25,7 @@ public class AccountRoleDto
     {
         return new AccountRoleDto
         {
-            Guid = accountRole.Guid,           
+            Guid = accountRole.Guid,
             AccountGuid = accountRole.AccountGuid,
             RoleGuid = accountRole.RoleGuid
         };

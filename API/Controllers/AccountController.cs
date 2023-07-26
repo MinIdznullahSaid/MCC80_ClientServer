@@ -1,5 +1,5 @@
 ﻿using API.Contracts;
-using API.DTOs;
+using API.DTOs.AccountDtos;
 using API.Models;
 using API.Services;
 using API.Utilities.Handlers;
@@ -175,6 +175,30 @@ public class AccountController : ControllerBase
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
             Message = "Login Success"
+        });
+    }
+
+    [HttpPost("register")]
+    public IActionResult Register(RegisterDto registerDto)
+    {
+        var result = _accountService.Register(registerDto);
+
+        if (result is 0)
+        {
+            return StatusCode(500, new ResponseHandler<RegisterDto>
+            {
+                Code = StatusCodes.Status500InternalServerError,
+                Status = HttpStatusCode.InternalServerError.ToString(),
+                Message = "Something is Wrong, Register Failed"
+            });
+        }
+
+        return Ok(new ResponseHandler<RegisterDto>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Register Success",
+            Data = registerDto
         });
     }
 }

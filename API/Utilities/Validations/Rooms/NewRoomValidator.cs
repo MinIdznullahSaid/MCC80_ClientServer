@@ -1,4 +1,4 @@
-﻿using API.DTOs;
+﻿using API.DTOs.RoomDtos;
 using FluentValidation;
 
 namespace API.Utilities.Validations.Rooms;

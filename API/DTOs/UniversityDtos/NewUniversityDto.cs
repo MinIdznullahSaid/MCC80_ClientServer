@@ -1,6 +1,6 @@
 ﻿using API.Models;
 
-namespace API.DTOs;
+namespace API.DTOs.UniversityDtos;
 
 public class NewUniversityDto
 {

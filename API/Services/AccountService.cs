@@ -1,7 +1,13 @@
 ﻿using API.Contracts;
-using API.DTOs;
+using API.DTOs.AccountDtos;
+using API.DTOs.EducationDtos;
+using API.DTOs.EmployeeDtos;
+using API.DTOs.UniversityDtos;
 using API.Models;
 using API.Repositories;
+using API.Utilities.Handlers;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Principal;
 
 namespace API.Services;
 
@@ -9,11 +15,16 @@ public class AccountService
 {
     private readonly IAccountRepository _accountRepository;
     private readonly IEmployeeRepository _employeeRepository;
+    private readonly IEducationRepository _educationRepository;
+    private readonly IUniversityRepository _universityRepository;
 
-    public AccountService(IAccountRepository accountRepository,IEmployeeRepository employeeRepository)
+    public AccountService(IAccountRepository accountRepository, IEmployeeRepository employeeRepository, IEducationRepository educationRepository, IUniversityRepository universityRepository)
     {
         _accountRepository = accountRepository;
         _employeeRepository = employeeRepository;
+        _educationRepository = educationRepository;
+        _universityRepository = universityRepository;
+
     }
 
 
@@ -103,5 +114,106 @@ public class AccountService
         }
 
         return 0;
+    }
+
+    public int Register(RegisterDto registerDto)
+    {
+
+        Employee employeeToCreate = new NewEmployeeDto
+        {
+            FirstName = registerDto.FirstName,
+            LastName = registerDto.LastName,
+            BirthDate = registerDto.BirthDate,
+            Gender = registerDto.Gender,
+            HiringDate = registerDto.HiringDate,
+            Email = registerDto.Email,
+            PhoneNumber = registerDto.PhoneNumber,     
+
+    };
+        employeeToCreate.NIK = GenerateHandler.GenerateNIK(_employeeRepository.GetLastNIK());
+        var employeeResult = _employeeRepository.Create(employeeToCreate);
+
+        University university = new NewUniversityDto
+        {
+            Code = registerDto.UniversityCode,
+            Name = registerDto.UniversityName
+        };
+
+        var universityResult = _universityRepository.Create(university);
+
+        Education education = new NewEducationDto
+        {
+            Guid = employeeToCreate.Guid,
+            Degree = registerDto.Degree,
+            Major = registerDto.Major,
+            GPA = registerDto.GPA,
+            UniversityGuid = university.Guid
+        };
+
+        var educationResult = _educationRepository.Create(education);
+
+        Account account = new Account
+        {
+            Guid = employeeToCreate.Guid,
+            IsUsed = true,
+            ExpiredTime = DateTime.Now.AddYears(1),
+            OTP = 000,
+            Password = registerDto.Password,
+        };
+
+        var accountResult = _accountRepository.Create(account);
+
+        if (employeeResult is null || universityResult is null || educationResult is null || accountResult is null)
+        {
+            return 0;
+        }
+
+        return 1;
+        /*try
+        {
+
+            var employee = new Employee
+            {
+                Guid = new Guid(),
+                FirstName = registerDto.FirstName,
+                LastName = registerDto.LastName,
+                Email = registerDto.Email,
+                PhoneNumber = registerDto.PhoneNumber,
+                BirthDate = registerDto.BirthDate,
+                HiringDate = registerDto.HiringDate,
+                Gender = registerDto.Gender,
+            };
+            var university = new University
+            {
+                Name = registerDto.UniversityName
+            };
+            var education = new Education
+            {
+                Degree = registerDto.Degree,
+                Major = registerDto.Major,
+                GPA = registerDto.GPA
+            };
+            var account = new Account
+            {
+                Password = registerDto.Password,
+            };
+            
+            employee.Account = account;
+            education.University = university;
+            education.Employee = employee;
+
+            var createEmployee = _employeeRepository.Create(employee);
+            var createUniversity = _universityRepository.Create(university);
+            var createEducation = _educationRepository.Create(education);
+            var createAccount = _accountRepository.Create(account);
+
+            return 1; // register success
+
+        }
+        catch
+        {
+            return 0; // register failed
+        }
+    }*/
     }
 }

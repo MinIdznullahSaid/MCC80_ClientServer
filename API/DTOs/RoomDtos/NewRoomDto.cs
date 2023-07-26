@@ -1,32 +1,30 @@
 ﻿using API.Models;
 
-namespace API.DTOs;
+namespace API.DTOs.RoomDtos;
 
-public class RoomDto
+public class NewRoomDto
 {
-    public Guid Guid { get; set; }
     public string Name { get; set; }
     public int Floor { get; set; }
     public int Capacity { get; set; }
 
-    public static implicit operator Room(RoomDto roomDto)
+    public static implicit operator Room(NewRoomDto newRoomDto)
     {
         return new Room
         {
-            Guid = roomDto.Guid,
-            Name = roomDto.Name,
-            Floor = roomDto.Floor,
-            Capacity = roomDto.Capacity,
+            Guid = new Guid(),
+            Name = newRoomDto.Name,
+            Floor = newRoomDto.Floor,
+            Capacity = newRoomDto.Capacity,
             CreatedDate = DateTime.Now,
             ModifiedDate = DateTime.Now
         };
     }
 
-    public static explicit operator RoomDto(Room room)
+    public static explicit operator NewRoomDto(Room room)
     {
-        return new RoomDto
+        return new NewRoomDto
         {
-            Guid = room.Guid,
             Name = room.Name,
             Floor = room.Floor,
             Capacity = room.Capacity
