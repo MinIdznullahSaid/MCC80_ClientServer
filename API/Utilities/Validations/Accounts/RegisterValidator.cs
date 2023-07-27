@@ -61,7 +61,7 @@ public class RegisterValidator : AbstractValidator<RegisterDto>
             .Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{8,}$").WithMessage("Password is not valid");
 
 
-        RuleFor(r => r.PasswordConfirmed)
+        RuleFor(r => r.ConfirmPassword)
             .NotEmpty().WithMessage("Field must be filled")
             .Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{8,}$").WithMessage("Password is not valid")
             .Equal(r => r.Password).WithMessage("Confirmed password is wrong");

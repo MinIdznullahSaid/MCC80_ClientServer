@@ -20,7 +20,7 @@ public class EmployeeRepository : GeneralRepository<Employee>, IEmployeeReposito
     {
         var lastEmployee = _context.Set<Employee>()
                 .OrderByDescending(e => e.NIK)
-                .FirstOrDefault().NIK;
+                .FirstOrDefault()?.NIK;
 
         return lastEmployee;
     }

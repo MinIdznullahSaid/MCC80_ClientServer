@@ -206,59 +206,190 @@ public class AccountService
 
     public int Register(RegisterDto registerDto)
     {
-
-        Employee employeeToCreate = new NewEmployeeDto
-        {
-            FirstName = registerDto.FirstName,
-            LastName = registerDto.LastName,
-            BirthDate = registerDto.BirthDate,
-            Gender = registerDto.Gender,
-            HiringDate = registerDto.HiringDate,
-            Email = registerDto.Email,
-            PhoneNumber = registerDto.PhoneNumber,     
-
-    };
-        employeeToCreate.NIK = GenerateHandler.GenerateNIK(_employeeRepository.GetLastNIK());
-        var employeeResult = _employeeRepository.Create(employeeToCreate);
-
-        University university = new NewUniversityDto
-        {
-            Code = registerDto.UniversityCode,
-            Name = registerDto.UniversityName
-        };
-
-        var universityResult = _universityRepository.Create(university);
-
-        Education education = new NewEducationDto
-        {
-            Guid = employeeToCreate.Guid,
-            Degree = registerDto.Degree,
-            Major = registerDto.Major,
-            GPA = registerDto.GPA,
-            UniversityGuid = university.Guid
-        };
-
-        var educationResult = _educationRepository.Create(education);
-
-        Account account = new Account
-        {
-            Guid = employeeToCreate.Guid,
-            IsUsed = true,
-            ExpiredTime = DateTime.Now.AddYears(1),
-            OTP = 000,
-            Password = registerDto.Password,
-        };
-
-        var accountResult = _accountRepository.Create(account);
-
-        if (employeeResult is null || universityResult is null || educationResult is null || accountResult is null)
+        // ini untuk cek emaik sama phone number udah ada atau belum
+        if (!_employeeRepository.IsNotExist(registerDto.Email) || !_employeeRepository.IsNotExist(registerDto.PhoneNumber))
         {
             return 0;
         }
 
-        return 1;
-        
+        using var transaction = _dbContext.Database.BeginTransaction();
+        try
+        {
+            var university = _universityRepository.GetUniversityByCode(registerDto.UniversityCode);
+            if (university is null)
+            {
+                var createUniversity = _universityRepository.Create(new University
+                {
+                    Code = registerDto.UniversityCode,
+                    Name = registerDto.UniversityName
+                });
+
+                university = createUniversity;
+            }
+
+            var newNIK = GenerateHandler.GenerateNIK(_employeeRepository.GetLastNIK());
+            var employeeGuid = Guid.NewGuid();
+
+            var employee = _employeeRepository.Create(new Employee
+            {
+                Guid = employeeGuid,
+                NIK = newNIK,
+                FirstName = registerDto.FirstName,
+                LastName = registerDto.LastName,
+                BirthDate = registerDto.BirthDate,
+                Gender = registerDto.Gender,
+                HiringDate = registerDto.HiringDate,
+                Email = registerDto.Email,
+                PhoneNumber = registerDto.PhoneNumber
+            });
+
+
+            var education = _educationRepository.Create(new Education
+            {
+                Guid = employeeGuid,
+                Major = registerDto.Major,
+                Degree = registerDto.Degree,
+                GPA = registerDto.GPA,
+                UniversityGuid = university.Guid
+            });
+
+            var account = _accountRepository.Create(new Account
+            {
+                Guid = employeeGuid,
+                OTP = 111,
+                IsUsed = true,
+                Password = registerDto.Password
+            });
+            transaction.Commit();
+            return 1;
+        }
+        catch
+        {
+            transaction.Rollback();
+            return -1;
+        }
+
+        /* public int RegisterDto? Register(RegisterDto registerDto)
+         {
+             using var transaction = _dbContext.Database.BeginTransaction();
+
+             try
+             {
+                 var universityExist = _universityRepository.GetUniversityByCode(registerDto.UniversityCode);
+                 var universityToCreate = new University();
+
+                 if (universityExist is null)
+                 {
+                     universityToCreate.Guid = Guid.NewGuid();
+                     universityToCreate.Code = registerDto.UniversityCode;
+                     universityToCreate.Name = registerDto.UniversityName;
+                     universityToCreate.CreatedDate = DateTime.Now;
+                     universityToCreate.ModifiedDate = DateTime.Now;
+                 }
+                 else
+                 {
+                     universityToCreate = universityExist;
+                 }
+                 //University Create
+                 var universityResult = _universityRepository.Create(universityToCreate);
+
+                 //Employee Create
+                 Employee employeeToCreate = new NewEmployeeDto
+                 {
+                     FirstName = registerDto.FirstName,
+                     LastName = registerDto.LastName,
+                     BirthDate = registerDto.BirthDate,
+                     Gender = registerDto.Gender,
+                     HiringDate = registerDto.HiringDate,
+                     Email = registerDto.Email,
+                     PhoneNumber = registerDto.PhoneNumber
+                 };
+                 employeeToCreate.NIK = GenerateHandler.GenerateNIK(_employeeRepository.GetLastNIK());
+                 var employeeResult = _employeeRepository.Create(employeeToCreate);
+
+                 //Education Create
+                 var educationResult = _educationRepository.Create(new NewEducationDto
+                 {
+                     Guid = employeeToCreate.Guid,
+                     Degree = registerDto.Degree,
+                     Major = registerDto.Major,
+                     GPA = registerDto.GPA,
+                     UniversityGuid = universityResult.Guid
+                 });
+
+                 //Account Create
+                 var accountResult = _accountRepository.Create(new NewAccountDto
+                 {
+                     Guid = employeeToCreate.Guid,
+                     IsUsed = true,
+                     ExpiredTime = DateTime.Now.AddYears(3),
+                     OTP = 111,
+                     Password = registerDto.Password,
+                 });
+
+                 transaction.Commit();
+             }
+             catch
+             {
+                 transaction.Rollback();
+                 return -1;
+             }
+
+             return 1;
+         }
+         /* Employee employeeToCreate = new NewEmployeeDto
+          {
+              FirstName = registerDto.FirstName,
+              LastName = registerDto.LastName,
+              BirthDate = registerDto.BirthDate,
+              Gender = registerDto.Gender,
+              HiringDate = registerDto.HiringDate,
+              Email = registerDto.Email,
+              PhoneNumber = registerDto.PhoneNumber,     
+
+      };
+          employeeToCreate.NIK = GenerateHandler.GenerateNIK(_employeeRepository.GetLastNIK());
+          var employeeResult = _employeeRepository.Create(employeeToCreate);
+
+          University university = new NewUniversityDto
+          {
+              Code = registerDto.UniversityCode,
+              Name = registerDto.UniversityName
+          };
+
+          var universityResult = _universityRepository.Create(university);
+
+          Education education = new NewEducationDto
+          {
+              Guid = employeeToCreate.Guid,
+              Degree = registerDto.Degree,
+              Major = registerDto.Major,
+              GPA = registerDto.GPA,
+              UniversityGuid = university.Guid
+          };
+
+          var educationResult = _educationRepository.Create(education);
+
+          Account account = new Account
+          {
+              Guid = employeeToCreate.Guid,
+              IsUsed = true,
+              ExpiredTime = DateTime.Now.AddYears(2),
+              OTP = 000,
+              Password = registerDto.Password,
+          };
+
+          var accountResult = _accountRepository.Create(account);
+
+          if (employeeResult is null || universityResult is null || educationResult is null || accountResult is null)
+          {
+              return 0;
+          }
+
+          return 1;*/
+
     }
+}
 
     
-}
+
