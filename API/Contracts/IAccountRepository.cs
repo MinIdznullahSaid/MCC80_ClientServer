@@ -9,5 +9,9 @@ public interface IAccountRepository : IGeneralRepository<Account>
     bool IsNotExist(string value);
 
     Employee? GetByEmail(string email);
+
+    Employee? CheckEmail(string email);
+
+    Account Create(Account account);
 }
 

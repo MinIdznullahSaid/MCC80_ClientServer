@@ -7,4 +7,5 @@ public interface IGeneralRepository<Entity>
     Entity? Create(Entity entity);
     bool Update(Entity entity);
     bool Delete(Entity entity);
+    void Clear();
 }

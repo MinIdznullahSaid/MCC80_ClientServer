@@ -48,7 +48,8 @@ public class RegisterValidator : AbstractValidator<RegisterDto>
             .NotEmpty().WithMessage("Field must be filled");
 
         RuleFor(r => r.GPA)
-            .NotEmpty().WithMessage("Field must be filled");
+            .NotEmpty().WithMessage("Field must be filled")
+            .InclusiveBetween(0.0f, 4.0f).WithMessage("GPA harus berada di antara 0.0 hingga 4.0.");
 
         RuleFor(r => r.Email)
             .NotEmpty().WithMessage("Field must be filled")

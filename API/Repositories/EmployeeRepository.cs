@@ -29,5 +29,10 @@ public class EmployeeRepository : GeneralRepository<Employee>, IEmployeeReposito
     {
         return _context.Set<Employee>().SingleOrDefault(e => e.Email.Contains(email));
     }
+
+    public Employee? CheckEmail(string email)
+    {
+        return _context.Set<Employee>().FirstOrDefault(e => e.Email == email);
+    }
 }
 
