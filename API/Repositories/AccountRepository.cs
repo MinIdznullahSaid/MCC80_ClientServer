@@ -14,5 +14,10 @@ public class AccountRepository : GeneralRepository<Account>, IAccountRepository
                        .SingleOrDefault(e => e.Email.Contains(value)
                        || e.PhoneNumber.Contains(value)) is null;
     }
+
+    public Employee? GetByEmail(string email)
+    {
+        return _context.Set<Employee>().SingleOrDefault(e => e.Email.Contains(email));
+    }
 }
 

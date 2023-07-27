@@ -7,5 +7,7 @@ namespace API.Contracts;
 public interface IAccountRepository : IGeneralRepository<Account>
 {
     bool IsNotExist(string value);
+
+    Employee? GetByEmail(string email);
 }
 

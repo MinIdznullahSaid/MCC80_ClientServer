@@ -169,51 +169,41 @@ public class AccountService
         }
 
         return 1;
-        /*try
+        
+    }
+
+    public int ForgotPassword(ForgotPasswordDto forgotPasswordDto)
+    {
+        var employee = _employeeRepository.GetByEmail(forgotPasswordDto.Email);
+        if(employee is null)
         {
-
-            var employee = new Employee
-            {
-                Guid = new Guid(),
-                FirstName = registerDto.FirstName,
-                LastName = registerDto.LastName,
-                Email = registerDto.Email,
-                PhoneNumber = registerDto.PhoneNumber,
-                BirthDate = registerDto.BirthDate,
-                HiringDate = registerDto.HiringDate,
-                Gender = registerDto.Gender,
-            };
-            var university = new University
-            {
-                Name = registerDto.UniversityName
-            };
-            var education = new Education
-            {
-                Degree = registerDto.Degree,
-                Major = registerDto.Major,
-                GPA = registerDto.GPA
-            };
-            var account = new Account
-            {
-                Password = registerDto.Password,
-            };
-            
-            employee.Account = account;
-            education.University = university;
-            education.Employee = employee;
-
-            var createEmployee = _employeeRepository.Create(employee);
-            var createUniversity = _universityRepository.Create(university);
-            var createEducation = _educationRepository.Create(education);
-            var createAccount = _accountRepository.Create(account);
-
-            return 1; // register success
-
+            return 0; //Email is not found
         }
-        catch
+
+        var account = _accountRepository.GetByGuid(employee.Guid);
+        if(account is null)
         {
-            return 0; // register failed
+            return -1; //Guid is not found
         }
-    }*/
+
+        var otp = new Random().Next(000000, 999999);
+        var isUpdate = _accountRepository.Update(new Account
+        {
+            Guid = account.Guid,
+            Password = account.Password,
+            ExpiredTime = DateTime.Now.AddMinutes(3),
+            OTP = otp,
+            IsUsed = false,
+            CreatedDate = account.CreatedDate,
+            ModifiedDate = DateTime.Now
+        });
+
+        if (!isUpdate)
+        {
+            return -1;
+        }
+
+        forgotPasswordDto.Email = $"{otp}";
+        return 1; //OTP berhasil terkirim
     }
 }

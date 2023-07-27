@@ -201,4 +201,35 @@ public class AccountController : ControllerBase
             Data = registerDto
         });
     }
+
+    [HttpPost("forgotpassword")]
+    public IActionResult ForgotPassword(ForgotPasswordDto forgotPasswordDto)
+    {
+        var isUpdate = _accountService.ForgotPassword(forgotPasswordDto);
+        if (isUpdate is 0)
+            return NotFound(new ResponseHandler<LoginDto>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Email is not found"
+            });
+
+        if (isUpdate is -1)
+        {
+            return StatusCode(500, new ResponseHandler<ForgotPasswordDto>
+            {
+                Code = StatusCodes.Status500InternalServerError,
+                Status = HttpStatusCode.InternalServerError.ToString(),
+                Message = "Error retrieving data from database"
+            });
+        }
+
+        return Ok(new ResponseHandler<ForgotPasswordDto>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "OTP has been sent to your email",
+            Data = forgotPasswordDto
+        });
+    }
 }
