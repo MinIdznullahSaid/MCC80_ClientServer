@@ -203,4 +203,50 @@ public class BookingController : ControllerBase
         });
     }
 
+    [HttpGet("detail")]
+    public IActionResult GetAllBookingDetail()
+    {
+        var result = _bookingService.GetAllBookingDetail();
+        if (!result.Any())
+        {
+            return NotFound(new ResponseHandler<BookingDetailDto>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Data not found"
+            });
+        }
+
+        return Ok(new ResponseHandler<IEnumerable<BookingDetailDto>>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Success retrieve data",
+            Data = result
+        });
+    }
+
+    [HttpGet("detail/{guid}")]
+    public IActionResult GetAllBookingDetail(Guid guid)
+    {
+        var result = _bookingService.GetBookingDetailByGuid(guid);
+        if (result is null)
+        {
+            return NotFound(new ResponseHandler<BookingDetailDto>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Data not found"
+            });
+        }
+
+        return Ok(new ResponseHandler<BookingDetailDto>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Data is found",
+            Data = result
+        });
+    }
+
 }
