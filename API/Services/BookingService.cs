@@ -69,6 +69,8 @@ public class BookingService
         toUpdate.CreatedDate = booking.CreatedDate;
         var result = _bookingRepository.Update(toUpdate);
 
+        _bookingRepository.Clear();
+
         return result ? 1 // booking is updated;
             : 0; // booking failed to update;
     }

@@ -34,5 +34,10 @@ public class EmployeeRepository : GeneralRepository<Employee>, IEmployeeReposito
     {
         return _context.Set<Employee>().FirstOrDefault(e => e.Email == email);
     }
+
+    public Guid GetLastEmloyeeGuid()
+    {
+        return _context.Set<Employee>().ToList().LastOrDefault().Guid;
+    }
 }
 

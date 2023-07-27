@@ -154,4 +154,27 @@ public class RoomController : ControllerBase
             Message = "Delete Success"
         });
     }
+
+    [HttpGet("booked-room-today")]
+    public IActionResult GetTodayBookedRoom()
+    {
+        var result = _roomService.GetTodayBookedRoom();
+        if (result is null)
+        {
+            return NotFound(new ResponseHandler<TodayBookedRoomDto>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "guid not found"
+            });
+        }
+
+        return Ok(new ResponseHandler<IEnumerable<TodayBookedRoomDto>>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Success retrieve data",
+            Data = result
+        });
+    }
 }

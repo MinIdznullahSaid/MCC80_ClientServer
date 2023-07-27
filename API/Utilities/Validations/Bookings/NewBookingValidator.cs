@@ -10,8 +10,7 @@ public class NewBookingValidator : AbstractValidator<NewBookingDto>
 
         RuleFor(b => b.StartDate)
             .NotEmpty().WithMessage("Field must be filled")
-            .GreaterThanOrEqualTo(DateTime.Now).WithMessage("Input is not valid")
-            .LessThan(b => b.EndDate);
+            .GreaterThanOrEqualTo(DateTime.Now).WithMessage("Input is not valid");
 
         RuleFor(b => b.EndDate)
             .NotEmpty().WithMessage("Field must be filled")

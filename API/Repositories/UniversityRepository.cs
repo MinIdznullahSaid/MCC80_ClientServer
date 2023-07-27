@@ -15,5 +15,10 @@ public class UniversityRepository : GeneralRepository<University>, IUniversityRe
                        .SingleOrDefault(e => e.Code.Contains(value)
                        || e.Name.Contains(value)) is null;
     }
+
+    public Guid GetLastUniversityGuid()
+    {
+        return _context.Set<University>().ToList().LastOrDefault().Guid;
+    }
 }
 
