@@ -68,7 +68,7 @@ public class AccountService
             CreatedDate = getAccountDetail.CreatedDate,
             OTP = getAccountDetail.OTP,
             ExpiredTime = getAccountDetail.ExpiredTime,
-            Password = changePasswordDto.NewPassword
+            Password = HashingHandler.GenerateHash(changePasswordDto.NewPassword)
         };
 
         var isUpdated = _accountRepository.Update(account);
@@ -146,7 +146,9 @@ public class AccountService
 
     public AccountDto? Create(NewAccountDto newAccountDto)
     {
-        var account = _accountRepository.Create(newAccountDto);
+        var createAccount = newAccountDto;
+        createAccount.Password = HashingHandler.GenerateHash(newAccountDto.Password);
+        var account = _accountRepository.Create(createAccount); 
         if (account is null)
         {
             return null; // account is null or not found;
@@ -165,6 +167,7 @@ public class AccountService
 
         Account toUpdate = accountDto;
         toUpdate.CreatedDate = account.CreatedDate;
+        toUpdate.Password = HashingHandler.GenerateHash(accountDto.Password);
         var result = _accountRepository.Update(toUpdate);
 
         return result ? 1 // account is updated;
@@ -196,7 +199,7 @@ public class AccountService
 
         var getAccount = _accountRepository.GetByGuid(getEmployee.Guid);
 
-        if (getAccount.Password == loginDto.Password)
+        if (HashingHandler.ValidateHash(loginDto.Password, getAccount.Password))
         {
             return 1; // Login success
         }
@@ -257,7 +260,7 @@ public class AccountService
                 Guid = employeeGuid,
                 OTP = 111,
                 IsUsed = true,
-                Password = registerDto.Password
+                Password = HashingHandler.GenerateHash(registerDto.Password)
             });
             transaction.Commit();
             return 1;
