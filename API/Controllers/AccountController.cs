@@ -3,6 +3,7 @@ using API.DTOs.AccountDtos;
 using API.Models;
 using API.Services;
 using API.Utilities.Handlers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -10,6 +11,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/accounts")]
+[Authorize]
 public class AccountController : ControllerBase
 {
     private readonly AccountService _accountService;
@@ -156,11 +158,22 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost("login")]
+    [AllowAnonymous]
     public IActionResult Login(LoginDto loginDto)
     {
         var result = _accountService.Login(loginDto);
 
-        if (result is 0)
+        if (result is "0")
+        {
+            return StatusCode(500, new ResponseHandler<AccountDto>
+            {
+                Code = StatusCodes.Status500InternalServerError,
+                Status = HttpStatusCode.InternalServerError.ToString(),
+                Message = "Delete Failed"
+            });
+        }
+
+        if (result is "-1")
         {
             return NotFound(new ResponseHandler<LoginDto>
             {
@@ -170,15 +183,29 @@ public class AccountController : ControllerBase
             });
         }
 
-        return Ok(new ResponseHandler<LoginDto>
+        if (result is "-2")
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<LoginDto>
+            {
+                Code = StatusCodes.Status500InternalServerError,
+                Status = HttpStatusCode.InternalServerError.ToString(),
+                Message = "Error when generate token"
+            });
+        }
+
+        return Ok(new ResponseHandler<TokenDto>
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Login Success"
+            Message = "Login Success",
+            Data = new TokenDto {
+                Token = result
+            }
         });
     }
 
     [HttpPost("register")]
+    [AllowAnonymous]
     public IActionResult Register(RegisterDto registerDto)
     {
         var result = _accountService.Register(registerDto);
@@ -203,6 +230,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost("forgotpassword")]
+    [AllowAnonymous]
     public IActionResult ForgotPassword(ForgotPasswordDto forgotPasswordDto)
     {
         var isUpdate = _accountService.ForgotPassword(forgotPasswordDto);
@@ -234,6 +262,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost("changepassword")]
+    [AllowAnonymous]
 
     public IActionResult ChangePassword(ChangePasswordDto changePassword)
     {

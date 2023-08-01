@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using API.Models;
+using API.DTOs.Roles;
 
 namespace API.Data;
 
@@ -18,6 +19,12 @@ public class BookingDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Role>().HasData(new NewRoleDefaultDto
+        {
+            Guid = Guid.Parse("f96a6e22-f9b7-46a4-1890-08db922b6b7e"),
+            Name = "Employee"
+        });
 
         modelBuilder.Entity<Employee>()
                     .HasIndex(e => new
