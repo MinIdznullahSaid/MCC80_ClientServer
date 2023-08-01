@@ -59,7 +59,7 @@ namespace API.Migrations
 
                     b.HasKey("Guid");
 
-                    b.ToTable("tb_m_account_roles", (string)null);
+                    b.ToTable("tb_m_accounts");
                 });
 
             modelBuilder.Entity("API.Models.AccountRole", b =>
@@ -91,7 +91,7 @@ namespace API.Migrations
 
                     b.HasIndex("RoleGuid");
 
-                    b.ToTable("tb_tr_account_roles", (string)null);
+                    b.ToTable("tb_tr_account_roles");
                 });
 
             modelBuilder.Entity("API.Models.Booking", b =>
@@ -140,20 +140,14 @@ namespace API.Migrations
 
                     b.HasIndex("RoomGuid");
 
-                    b.ToTable("tb_tr_booking", (string)null);
+                    b.ToTable("tb_tr_booking");
                 });
 
             modelBuilder.Entity("API.Models.Education", b =>
                 {
                     b.Property<Guid>("Guid")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("guid");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2")
@@ -177,11 +171,6 @@ namespace API.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("modified_date");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasColumnName("name");
-
                     b.Property<Guid>("UniversityGuid")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("university_guid");
@@ -190,7 +179,7 @@ namespace API.Migrations
 
                     b.HasIndex("UniversityGuid");
 
-                    b.ToTable("tb_m_universities", (string)null);
+                    b.ToTable("tb_m_educations");
                 });
 
             modelBuilder.Entity("API.Models.Employee", b =>
@@ -249,7 +238,7 @@ namespace API.Migrations
                     b.HasIndex("NIK", "Email", "PhoneNumber")
                         .IsUnique();
 
-                    b.ToTable("tb_m_employees", (string)null);
+                    b.ToTable("tb_m_employees");
                 });
 
             modelBuilder.Entity("API.Models.Role", b =>
@@ -274,7 +263,30 @@ namespace API.Migrations
 
                     b.HasKey("Guid");
 
-                    b.ToTable("tb_m_roles", (string)null);
+                    b.ToTable("tb_m_roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Guid = new Guid("f96a6e22-f9b7-46a4-1890-08db922b6b7e"),
+                            CreatedDate = new DateTime(2023, 8, 1, 15, 37, 1, 370, DateTimeKind.Local).AddTicks(2550),
+                            ModifiedDate = new DateTime(2023, 8, 1, 15, 37, 1, 370, DateTimeKind.Local).AddTicks(2562),
+                            Name = "Employee"
+                        },
+                        new
+                        {
+                            Guid = new Guid("f96a6e22-f9b7-46a4-1890-08db922b6b8e"),
+                            CreatedDate = new DateTime(2023, 8, 1, 15, 37, 1, 370, DateTimeKind.Local).AddTicks(2567),
+                            ModifiedDate = new DateTime(2023, 8, 1, 15, 37, 1, 370, DateTimeKind.Local).AddTicks(2567),
+                            Name = "Manager"
+                        },
+                        new
+                        {
+                            Guid = new Guid("f96a6e22-f9b7-46a4-1890-08db922b6b9e"),
+                            CreatedDate = new DateTime(2023, 8, 1, 15, 37, 1, 370, DateTimeKind.Local).AddTicks(2571),
+                            ModifiedDate = new DateTime(2023, 8, 1, 15, 37, 1, 370, DateTimeKind.Local).AddTicks(2571),
+                            Name = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("API.Models.Room", b =>
@@ -307,7 +319,37 @@ namespace API.Migrations
 
                     b.HasKey("Guid");
 
-                    b.ToTable("tb_m_rooms", (string)null);
+                    b.ToTable("tb_m_rooms");
+                });
+
+            modelBuilder.Entity("API.Models.University", b =>
+                {
+                    b.Property<Guid>("Guid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("code");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("created_date");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("modified_date");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("name");
+
+                    b.HasKey("Guid");
+
+                    b.ToTable("tb_m_universities");
                 });
 
             modelBuilder.Entity("API.Models.Account", b =>
@@ -315,7 +357,7 @@ namespace API.Migrations
                     b.HasOne("API.Models.Employee", "Employee")
                         .WithOne("Account")
                         .HasForeignKey("API.Models.Account", "Guid")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Employee");
@@ -326,13 +368,13 @@ namespace API.Migrations
                     b.HasOne("API.Models.Account", "Account")
                         .WithMany("AccountRoles")
                         .HasForeignKey("AccountGuid")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("API.Models.Role", "Role")
                         .WithMany("AccountRoles")
                         .HasForeignKey("RoleGuid")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Account");
@@ -345,13 +387,13 @@ namespace API.Migrations
                     b.HasOne("API.Models.Employee", "Employee")
                         .WithMany("Bookings")
                         .HasForeignKey("EmployeeGuid")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("API.Models.Room", "Room")
                         .WithMany("Bookings")
                         .HasForeignKey("RoomGuid")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Employee");
@@ -364,28 +406,23 @@ namespace API.Migrations
                     b.HasOne("API.Models.Employee", "Employee")
                         .WithOne("Education")
                         .HasForeignKey("API.Models.Education", "Guid")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("API.Models.Education", "Education")
+                    b.HasOne("API.Models.University", "University")
                         .WithMany("Educations")
                         .HasForeignKey("UniversityGuid")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Education");
-
                     b.Navigation("Employee");
+
+                    b.Navigation("University");
                 });
 
             modelBuilder.Entity("API.Models.Account", b =>
                 {
                     b.Navigation("AccountRoles");
-                });
-
-            modelBuilder.Entity("API.Models.Education", b =>
-                {
-                    b.Navigation("Educations");
                 });
 
             modelBuilder.Entity("API.Models.Employee", b =>
@@ -405,6 +442,11 @@ namespace API.Migrations
             modelBuilder.Entity("API.Models.Room", b =>
                 {
                     b.Navigation("Bookings");
+                });
+
+            modelBuilder.Entity("API.Models.University", b =>
+                {
+                    b.Navigation("Educations");
                 });
 #pragma warning restore 612, 618
         }

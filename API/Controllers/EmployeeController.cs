@@ -11,7 +11,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/employees")]
-[Authorize]
+//[Authorize]
 public class EmployeeController : ControllerBase
 {
     private readonly EmployeeService _employeeService;
