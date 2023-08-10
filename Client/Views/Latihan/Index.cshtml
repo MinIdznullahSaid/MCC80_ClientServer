@@ -1,0 +1,152 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_AdminLayout";
+}
+
+<div class="header" style="padding-top: 80px; position:relative; z-index:99">
+    <h1>Employee Data</h1>
+</div>
+
+<div class="d-flex justify-content-end" style="margin-top: 30px;">
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">
+        Add
+    </button>
+</div>
+
+<br />
+
+<div>
+    <table class="table" id="myTable">
+        <thead class="table-light">
+            <tr>
+                <th>No</th>
+                <th>Name</th>
+                <th>NIK</th>
+                <th>Gender</th>
+                <th>Birth Date</th>
+                <th>Email</th>
+                <th>PhoneNumber</th>
+                <th>Hiring Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="tbodyEmp">
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Employee</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm">
+                    <div class="mb-3">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="firstName" name="firstName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" name="lastName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="gender" class="form-label">Gender</label>
+                        <select class="form-select" aria-label="Default select example" id="gender" name="gender" required>
+                            <option selected>Select Gender</option>
+                            <option value="0">Male</option>
+                            <option value="1">Female</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="birthDate" class="form-label">Birth Date</label>
+                        <input type="date" class="form-control" id="birthDate" name="birthDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="hiringDate" class="form-label">Hiring Date</label>
+                        <input type="date" class="form-control" id="hiringDate" name="hiringDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Phone Number</label>
+                        <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="text" class="form-control" id="email" name="email" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="Insert()">Save Data</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div class="container">
+    <div class="row">
+        <div id="what" class="col border border-primary">
+            <h3>What is Lorem Ipsum?</h3>
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+        </div>
+
+        <div class="col">
+            <div id="where" class="border border-danger">
+                    <h3>Where does it come from?</h3>
+                    Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+                </div>
+            <div id="why" class="border border-warning">
+                    <h3>Why do we use it?</h3>
+                    It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+                </div>
+        </div>
+    </div>
+    <div>
+        <button id="b1" type="button" class="btn btn-primary">What</button>
+        <button id="b2" type="button" class="btn btn-danger">Where</button>
+        <button id="b3" type="button" class="btn btn-warning">Why</button>
+        <button id="b4" type="button" class="btn btn-secondary">Reset</button>
+    </div>
+</div>*@
+
+@*<div class="header">
+    <h1>*** Pokédex ***</h1>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th id="number">No</th>
+            <th id="name">Name</th>
+            <th id="action">Action</th>
+        </tr>
+    </thead>
+    <tbody id="tbodyPM">
+        
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="modalPM" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...               
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>*@

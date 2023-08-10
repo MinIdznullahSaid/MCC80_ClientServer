@@ -4,6 +4,7 @@ using API.Models;
 using API.Services;
 using API.Utilities.Handlers;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -11,7 +12,8 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/universities")]
-[Authorize]
+//[Authorize]
+[EnableCors]
 public class UniversityController : ControllerBase
 {
     private readonly UniversityService _universityService;

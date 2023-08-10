@@ -6,12 +6,14 @@ using API.Utilities.Handlers;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 
 namespace API.Controllers;
 
 [ApiController]
 [Route("api/account-roles")]
-[Authorize]
+//[Authorize]
+[EnableCors]
 public class AccountRoleController : ControllerBase
 {
     private readonly AccountRoleService _accountRoleService;
