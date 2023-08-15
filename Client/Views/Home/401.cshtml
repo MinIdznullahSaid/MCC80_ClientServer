@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["Title"] = "401 Unauthorized";
+    Layout = "_ErrorLayout";
+}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .error-container {
+        text-align: center;
+    }
+
+    .error-code {
+        font-size: 72px;
+        color: #dc3545;
+    }
+
+    .error-message {
+        font-size: 24px;
+        margin-top: 16px;
+    }
+
+    .countdown {
+        font-size: 18px;
+        margin-top: 24px;
+    }
+
+    .error-image {
+        max-width: 300px;
+        margin-top: 24px;
+    }
+</style>
+
+<div class="error-container">
+    <img src="../assets/images/backgrounds/401.jpg" alt="Unauthorized Image" class="error-image" style="max-width:600px; max-height:600px; align-content:center;">
+    <div class="countdown">Redirecting in <span id="countdown">5</span> seconds...</div>
+</div>
+
+<script>
+    // Hitungan mundur
+    let countdown = 5;
+    const countdownElement = document.getElementById('countdown');
+
+    function updateCountdown() {
+        countdown--;
+        countdownElement.textContent = countdown;
+
+        if (countdown === 0) {
+            // Redirect ke halaman login setelah hitungan mundur selesai
+            window.location.href = '/account/login'; // Ganti dengan URL halaman login Anda
+        } else {
+            setTimeout(updateCountdown, 1000);
+        }
+    }
+
+    // Mulai hitungan mundur
+    setTimeout(updateCountdown, 1000);
+</script>

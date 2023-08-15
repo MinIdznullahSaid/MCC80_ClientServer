@@ -34,6 +34,15 @@ b4.addEventListener('click', () => {
 
 //asynchronous javascript
 $(document).ready(function () {
+    $('#employeeTable').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'colvis', 'copy', 'csv', 'excel', 'pdf', 'print'
+        ]    
+    });
+});
+
+$(document).ready(function () {
     let table = new DataTable('#myTable', {
         ajax: {
             url: "https://localhost:7149/api/employees",
@@ -117,7 +126,7 @@ $(document).ready(function () {
         let femaleCount = 0;
 
         result.data.forEach(function (dataDetail) {
-            if (dataDetail.gender === 0) {
+            if (dataDetail.gender === 1) {
                 maleCount++;
             } else {
                 femaleCount++;
@@ -169,11 +178,12 @@ $(document).ready(function () {
             }
         });
 
-        const xValues = ["18-30", "Above 30"];
-        const yValues = [age18To30Count, above30Count];
+        const xValues = ["18-30", "Above 30", ""];
+        const yValues = [age18To30Count, above30Count, 0];
         const barColors = [
             "#ebe2cf",
-            "#aaaaaa"
+            "#aaaaaa",
+            "#eeeeee"
         ];
 
         new Chart("ageChart", {
@@ -186,6 +196,12 @@ $(document).ready(function () {
                 }]
             },
             options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                legend: { display: false },
                 title: {
                     display: true,
                     text: "Age Percentage"

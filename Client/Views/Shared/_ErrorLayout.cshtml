@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"] - Client</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @await RenderSectionAsync("CSS", required: false)
+    <link rel="stylesheet" href="~/Client.styles.css" asp-append-version="true" />
+</head>
+
+<body>
+    <div class="main-content">
+            <div class="container mt-9">
+                @RenderBody()
+            </div>
+    </div>
+
+    <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src=""></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

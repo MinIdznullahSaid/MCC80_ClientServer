@@ -70,6 +70,7 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public IActionResult Insert(NewEmployeeDto newEmployeeDto)
     {
         var result = _employeeService.Create(newEmployeeDto);
@@ -93,13 +94,14 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpPut]
-    public IActionResult Update(EmployeeDto employeeDto)
+    [Authorize(Roles = "Admin")]
+    public IActionResult Update(UpdateEmployeeDto updateEmployeeDto)
     {
-        var result = _employeeService.Update(employeeDto);
+        var result = _employeeService.Update(updateEmployeeDto);
 
         if (result is -1)
         {
-            return NotFound(new ResponseHandler<EmployeeDto>
+            return NotFound(new ResponseHandler<UpdateEmployeeDto>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
@@ -109,7 +111,7 @@ public class EmployeeController : ControllerBase
 
         if (result is 0)
         {
-            return StatusCode(500, new ResponseHandler<EmployeeDto>
+            return StatusCode(500, new ResponseHandler<UpdateEmployeeDto>
             {
                 Code = StatusCodes.Status500InternalServerError,
                 Status = HttpStatusCode.InternalServerError.ToString(),
@@ -117,17 +119,18 @@ public class EmployeeController : ControllerBase
             });
         }
 
-        return Ok(new ResponseHandler<EmployeeDto>
+        return Ok(new ResponseHandler<UpdateEmployeeDto>
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
             Message = "Update Success",
-            Data = employeeDto
+            Data = updateEmployeeDto
         });
     }
 
     [HttpDelete]
-        public IActionResult Delete(Guid guid)
+    [Authorize(Roles = "Admin")]
+    public IActionResult Delete(Guid guid)
         {
             var result = _employeeService.Delete(guid);
 
@@ -160,6 +163,7 @@ public class EmployeeController : ControllerBase
         }
 
     [HttpGet("employees-detail")]
+    [Authorize(Roles = "Admin")]
     public IActionResult GetAllEmployeeDetail()
     {
         var result = _employeeService.GetAllEmployeeDetail();
@@ -183,6 +187,7 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpGet("employees-detail/{guid}")]
+    [Authorize(Roles = "Admin")]
     public IActionResult GetEmployeeDetailByGuid(Guid guid)
     {
         var result = _employeeService.GetEmployeeDetailByGuid(guid);
